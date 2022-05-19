@@ -24,7 +24,6 @@ tempStr = tempStr[:tempStr.find('\"')]
 #print('{0} {1} PLN'.format(waluta, liczba))
 
 now = datetime.now()                        # pobranie daty i godziny
-date_time = now.strftime("%H:%M:%S %d/%m/%Y")
 
 struct = {'price': tempStr,                 # zapis wartości
           'time': now.strftime("%H:%M:%S"), # zapis godziny
