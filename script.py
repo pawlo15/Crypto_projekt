@@ -17,28 +17,33 @@ tempStr = tempStr[tempStr.find('\"') + 1:]
 tempStr = tempStr[:tempStr.find('\"')]
 
 # jeżeli chcemy wyświetlić nazwę waluty i jej wartość
-#waluta = strona.p
-#waluta = str(waluta)
-#waluta = waluta[waluta.find('>')+1:]
-#waluta = waluta[:waluta.find('<')]
-#print('{0} {1} PLN'.format(waluta, liczba))
+waluta = strona.p
+waluta = str(waluta)
+waluta = waluta[waluta.find('>')+1:]
+waluta = waluta[:waluta.find('<')]
+print('{0} {1} PLN'.format(waluta, tempStr))
 
 now = datetime.now()                        # pobranie daty i godziny
+date_time = now.strftime("%H:%M:%S %d/%m/%Y")
 
-struct = {'price': tempStr,                 # zapis wartości
+struct = {'price': tempStr,                  # zapis wartości
           'time': now.strftime("%H:%M:%S"), # zapis godziny
           'data': now.strftime("%d/%m/%Y")} # zapis daty
 
-if os.path.exists('plik.csv'):              # dopisujemy do plik.csv jeśli istnieje
+if os.path.exists('plik.csv'):
     with open('plik.csv', 'a', encoding='utf-8') as CSVfile:
         fieldnames = ['price', 'time', 'data']
         csvwriter = csv.DictWriter(CSVfile, fieldnames=fieldnames)
         csvwriter.writerow(struct)
-else:                                       # tworzymy plik.csv jeżeli nie istaniał
+else:
     with open('plik.csv', 'w', encoding='utf-8') as CSVfile:
         fieldnames = ['price', 'time', 'data']
         csvwriter = csv.DictWriter(CSVfile, fieldnames=fieldnames)
         csvwriter.writeheader()
         csvwriter.writerow(struct)
-
-CSVfile.close()
+try:
+    CSVfile.close()
+except IOError:
+    print("Nie udało się zamknąć pliku.")
+else:
+    print("Zamknięto plik")
